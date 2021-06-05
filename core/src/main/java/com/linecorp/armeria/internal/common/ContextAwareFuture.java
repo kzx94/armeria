@@ -288,4 +288,31 @@ final class ContextAwareFuture<T> extends AbstractContextAwareFuture<T> {
     public CompletableFuture<T> exceptionally(Function<Throwable, ? extends T> fn) {
         return context().makeContextAware(super.exceptionally(makeContextAwareLoggingException(fn)));
     }
+
+    @Override
+    public CompletableFuture<T> exceptionallyAsync(Function<Throwable, ? extends T> fn) {
+        return context().makeContextAware(super.exceptionallyAsync(makeContextAwareLoggingException(fn)));
+    }
+
+    @Override
+    public CompletableFuture<T> exceptionallyAsync(Function<Throwable, ? extends T> fn, Executor executor) {
+        requireNonNull(executor, "executor");
+        return context().makeContextAware(super.exceptionallyAsync(this.makeContextAwareLoggingException(fn), executor));
+    }
+
+    @Override
+    public CompletableFuture<T> exceptionallyCompose(Function<Throwable, ? extends CompletionStage<T>> fn) {
+        return context().makeContextAware(super.exceptionallyCompose(makeContextAwareLoggingException(fn)));
+    }
+
+    @Override
+    public CompletableFuture<T> exceptionallyComposeAsync(Function<Throwable, ? extends CompletionStage<T>> fn) {
+        return context().makeContextAware(super.exceptionallyComposeAsync(makeContextAwareLoggingException(fn)));
+    }
+
+    @Override
+    public CompletableFuture<T> exceptionallyComposeAsync(Function<Throwable, ? extends CompletionStage<T>> fn, Executor executor) {
+        requireNonNull(executor, "executor");
+        return context().makeContextAware(super.exceptionallyComposeAsync(makeContextAwareLoggingException(fn), executor));
+    }
 }
